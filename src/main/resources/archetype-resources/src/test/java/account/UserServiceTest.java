@@ -1,11 +1,11 @@
 package ${package}.account;
 
-import static org.fest.assertions.Assertions.assertThat;
 import static org.mockito.Matchers.*;
 import static org.mockito.Mockito.*;
 
 import java.util.Collection;
 
+import org.junit.Assert;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
@@ -58,9 +58,10 @@ public class UserServiceTest {
 		UserDetails userDetails = userService.loadUserByUsername("user@example.com");
 
 		// assert
-		assertThat(demoUser.getEmail()).isEqualTo(userDetails.getUsername());
-		assertThat(demoUser.getPassword()).isEqualTo(userDetails.getPassword());
-        assertThat(hasAuthority(userDetails, demoUser.getRole()));
+		Assert.assertTrue(demoUser.getEmail().equals(userDetails.getUsername()));
+		Assert.assertTrue(demoUser.getPassword().equals(
+				userDetails.getPassword()));
+		Assert.assertTrue(hasAuthority(userDetails, demoUser.getRole()));
 	}
 
 	private boolean hasAuthority(UserDetails userDetails, String role) {
