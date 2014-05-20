@@ -4,7 +4,8 @@ Spring MVC 4 Quickstart Maven Archetype
 Summary
 -------
 The project is a Maven archetype for Spring MVC 4 web application.
-
+This is bit modified version of original archetype created by Rafal Borowiec (kolorobot)
+To support apache tiles instead of Thymeleaf
 Generated project characteristics
 -------------------------
 * No-xml Spring MVC 4 web application for Servlet 3.0 environment
