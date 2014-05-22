@@ -8,6 +8,6 @@
         Get started quickly	by signing up.
     </p>
     <p>
-        <a href='<s:url value="/signup" />'class="btn btn-large btn-success">Sign up</a>
+        <a href='<s:url value="/signup" />'class="btn btn-large btn-success"><s:message code="signup.signup" /></a>
     </p>
 </div>

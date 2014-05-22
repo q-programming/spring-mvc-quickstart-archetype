@@ -2,6 +2,12 @@
 <%@ taglib uri="http://www.springframework.org/tags" prefix="s"%>
 <%@ taglib uri="http://www.springframework.org/security/tags"
 	prefix="security"%>
+<c:set var="email_txt">
+	<s:message code="signup.email" />
+</c:set>
+<c:set var="password_txt">
+	<s:message code="signup.password" />
+</c:set>
 <div class="navbar navbar-inverse navbar-fixed-top">
 	<div class="container">
 		<button type="button" class="navbar-toggle" data-toggle="collapse"
@@ -27,29 +33,25 @@
 								<li style="margin: 10px;">
 									<form action='<s:url value="/j_spring_security_check"/>'
 										method="post">
-										<c:if test="${not empty param['error']}">
-											<div class="alert alert-error">Sign in error. Please
-												try again.</div>
-										</c:if>
 										<div class="form-group">
 											<div class="col-xs-2" style="padding-bottom:5px">
 												<input type="text" class="form-control input-sm"
-													id="inputEmail" placeholder="Email" name="j_username">
+													id="inputEmail" placeholder="${email_txt}" name="j_username">
 											</div>
 											<div class="col-xs-2 signin">
 												<input type="password" class="form-control input-sm"
-													id="inputPassword" placeholder="Password" name="j_password">
+													id="inputPassword" placeholder="${password_txt}" name="j_password">
 											</div>
 											<div class="col-xs-2 signin">
 												<div class="checkbox">
 													<label> <input type="checkbox"
-														name="_spring_security_remember_me"> Remember me
+														name="_spring_security_remember_me"> <s:message
+															code="menu.remmember" />
 													</label>
 												</div>
 											</div>
 											<div class="col-xs-2 signin">
-												<button type="submit" class="btn btn-default btn-sm">Sign
-													in</button>
+												<button type="submit" class="btn btn-default btn-sm"><s:message code="menu.signin" /></button>
 											</div>
 										</div>
 									</form>

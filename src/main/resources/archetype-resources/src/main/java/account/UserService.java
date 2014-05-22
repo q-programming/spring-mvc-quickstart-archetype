@@ -14,21 +14,15 @@ import org.springframework.security.core.userdetails.*;
 public class UserService implements UserDetailsService {
 	
 	@Autowired
-	private AccountRepository accountRepository;
-	
-	@PostConstruct	
-	protected void initialize() {
-		accountRepository.save(new Account("user", "demo", "ROLE_USER"));
-		accountRepository.save(new Account("admin", "admin", "ROLE_ADMIN"));
-	}
+	private AccountService accountSrv;
 	
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-		Account account = accountRepository.findByEmail(username);
+		Account account = accountSrv.findByEmail(username);
 		if(account == null) {
 			throw new UsernameNotFoundException("user not found");
 		}
-		return createUser(account);
+		return account;
 	}
 	
 	public void signin(Account account) {
@@ -36,15 +30,11 @@ public class UserService implements UserDetailsService {
 	}
 	
 	private Authentication authenticate(Account account) {
-		return new UsernamePasswordAuthenticationToken(createUser(account), null, Collections.singleton(createAuthority(account)));		
+		return new UsernamePasswordAuthenticationToken(account, null, Collections.singleton(createAuthority(account)));		
 	}
 	
-	private User createUser(Account account) {
-		return new User(account.getEmail(), account.getPassword(), Collections.singleton(createAuthority(account)));
-	}
-
 	private GrantedAuthority createAuthority(Account account) {
-		return new SimpleGrantedAuthority(account.getRole());
+		return new SimpleGrantedAuthority(account.getRole().toString());
 	}
 
 }

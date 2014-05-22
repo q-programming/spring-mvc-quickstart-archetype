@@ -16,6 +16,7 @@ import org.mockito.runners.MockitoJUnitRunner;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import ${package}.account.Account.Role;
 
 @RunWith(MockitoJUnitRunner.class)
 public class UserServiceTest {
@@ -24,18 +25,10 @@ public class UserServiceTest {
 	private UserService userService = new UserService();
 
 	@Mock
-	private AccountRepository accountRepositoryMock;
+	private AccountService accountRepositoryMock;
 
 	@Rule
 	public ExpectedException thrown = ExpectedException.none();
-
-	@Test
-	public void shouldInitializeWithTwoDemoUsers() {
-		// act
-		userService.initialize();
-		// assert
-		verify(accountRepositoryMock, times(2)).save(any(Account.class));
-	}
 
 	@Test
 	public void shouldThrowExceptionWhenUserNotFound() {
@@ -51,26 +44,15 @@ public class UserServiceTest {
 	@Test
 	public void shouldReturnUserDetails() {
 		// arrange
-		Account demoUser = new Account("user@example.com", "demo", "ROLE_USER");
+		Account demoUser = new Account("user@example.com", "demo", Role.ROLE_USER);
 		when(accountRepositoryMock.findByEmail("user@example.com")).thenReturn(demoUser);
 
 		// act
 		UserDetails userDetails = userService.loadUserByUsername("user@example.com");
-
+		
 		// assert
-		Assert.assertTrue(demoUser.getEmail().equals(userDetails.getUsername()));
+		Assert.assertTrue(demoUser.getUsername().equals(userDetails.getUsername()));
 		Assert.assertTrue(demoUser.getPassword().equals(
 				userDetails.getPassword()));
-		Assert.assertTrue(hasAuthority(userDetails, demoUser.getRole()));
-	}
-
-	private boolean hasAuthority(UserDetails userDetails, String role) {
-		Collection<? extends GrantedAuthority> authorities = userDetails.getAuthorities();
-		for(GrantedAuthority authority : authorities) {
-			if(authority.getAuthority().equals(role)) {
-				return true;
-			}
-		}
-		return false;
 	}
 }
