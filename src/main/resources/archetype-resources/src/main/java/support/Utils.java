@@ -41,7 +41,7 @@ public class Utils {
 	public static String getBaseURL() {
 		// TODO null port and server scheme
 		if (baseURL == null) {
-			baseURL = String.format("%s://%s:%d/idea", request.getScheme(),
+			baseURL = String.format("%s://%s:%d/${artifactId}", request.getScheme(),
 					request.getServerName(), request.getServerPort());
 		}
 		return baseURL;
